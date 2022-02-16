@@ -11,7 +11,7 @@ Public Class ClsCalendar
     Private listFlDay As New List(Of FlowLayoutPanel)
     Private currentDate As Date = Date.Today
 
-    Public Sub GeraPainelDeDias(flDays As FlowLayoutPanel)
+    Public Sub GenerateDashboard(flDays As FlowLayoutPanel)
         Dim totalDays As Integer = 42 ' tamanho do array da tela
         flDays.Controls.Clear()
         listFlDay.Clear()
@@ -29,40 +29,41 @@ Public Class ClsCalendar
         Next
     End Sub
 
-    Public Sub MostraDataAtual()
+    Public Sub ShowCurrentDate()
         Dim lblMonthAndYear As Label = CalendarNotes.lblMonthAndYear
         lblMonthAndYear.Text = currentDate.ToString("MMMM, yyyy").ToUpper
-        Dim firstDayAtFlNumber As Integer = PegaPrimeiroDiaDaSemanaDaDataAtual()
-        Dim totalDay As Integer = PegaQuantidadeTotalDeDiasDoMes()
+        Dim firstDayAtFlNumber As Integer = FirstDayOfTheWeek()
+        Dim totalDay As Integer = DaysOfTheMonth()
 
-        AdicionaTextoParaFlDay(firstDayAtFlNumber, totalDay)
+        AddTextToFlDay(firstDayAtFlNumber, totalDay)
         AddAppointmentToFlDay(firstDayAtFlNumber)
     End Sub
 
-    Private Function PegaPrimeiroDiaDaSemanaDaDataAtual() As Integer
+    Private Function FirstDayOfTheWeek() As Integer
         Dim firstDayOfMonth As Date = New Date(currentDate.Year, currentDate.Month, 1)
         Return firstDayOfMonth.DayOfWeek + 1
     End Function
 
-    Private Function PegaQuantidadeTotalDeDiasDoMes() As Integer
+    Private Function DaysOfTheMonth() As Integer
         Dim firstDayOfCurrentDate As Date = New Date(currentDate.Year, currentDate.Month, 1)
         Return firstDayOfCurrentDate.AddMonths(1).AddDays(-1).Day
     End Function
 
-    Public Sub Hoje()
+    Public Sub Today()
         currentDate = Date.Today
-        MostraDataAtual()
+        ShowCurrentDate()
     End Sub
-    Public Sub ProximoMes()
+    Public Sub NewMonth()
         currentDate = currentDate.AddMonths(1)
-        MostraDataAtual()
+        ShowCurrentDate()
     End Sub
-    Public Sub MesAnterior()
+    Public Sub LastMonth()
         currentDate = currentDate.AddMonths(-1)
-        MostraDataAtual()
+        ShowCurrentDate()
     End Sub
 
-    Private Sub AdicionaTextoParaFlDay(startDayAtFlNumber As Integer, totalDaysInMonth As Integer)
+    ' Add days to the calendar
+    Private Sub AddTextToFlDay(startDayAtFlNumber As Integer, totalDaysInMonth As Integer)
         For Each fl As FlowLayoutPanel In listFlDay
             fl.Controls.Clear()
             fl.Tag = 0
@@ -87,39 +88,67 @@ Public Class ClsCalendar
         Next
     End Sub
 
+    ' Adds new appointment
     Friend Sub AddNewAppointment(sender As Object, e As EventArgs)
         Dim day = CType(sender, FlowLayoutPanel).Tag
 
         If day <> 0 Then
             With CreateNote
+                .id = 0
+                .TxtTitle.Clear()
+                .RtbDes.Text = ""
+                .DtpDate.Value = New Date(currentDate.Year, currentDate.Month, day)
+                .newNote = True
+                .BtnCor.IconColor = Color.FromArgb(-16777216)
                 .ShowDialog()
             End With
-            MostraDataAtual()
+            ShowCurrentDate()
         End If
     End Sub
 
+    ' Searches for appointments to show corresponding to the month
     Private Sub AddAppointmentToFlDay(startDayAtFlNumber As Integer)
         Dim startDate As Date = New Date(currentDate.Year, currentDate.Month, 1)
         Dim endDate As Date = startDate.AddMonths(1).AddDays(-1)
 
-        sql = $"select * from Note where date between #" & Format(startDate, "yyyy/MM/dd") & "# And #" & Format(endDate, "yyyy/MM/dd") & "#"
+        sql = $"select * from TabNote where datnot between #" & Format(startDate, "yyyy/MM/dd") & "# And #" & Format(endDate, "yyyy/MM/dd") & "#"
 
-        ' objDtLocal = objbanco.QueryAsDataTable(sql)
+        objDtLocal = objbanco.QueryAsDataTable(sql)
 
         For Each row As DataRow In objDtLocal.Rows
-            MostraNoCalendario(row, startDayAtFlNumber)
+            ShowOnCalendar(row, startDayAtFlNumber)
         Next
     End Sub
 
-    Private Sub MostraNoCalendario(row As DataRow, startDayAtFlNumber As Integer)
-        Dim datIni As Date = Date.Parse(row("date"))
+    ' Show appointments on calendar
+    Private Sub ShowOnCalendar(row As DataRow, startDayAtFlNumber As Integer)
+        Dim datIni As Date = Date.Parse(row("datnot"))
         Dim link As New LinkLabel
-        link.Tag = row("id")
-        link.Name = $"link{row("id")}"
-        link.Text = row("title")
+        link.Tag = row("codnot")
+        link.Name = $"link{row("codnot")}"
+        link.Text = row("titnot")
         link.Font = New Font("Microsoft Sans Serif", 12)
-        link.LinkColor = Color.FromArgb(row("colour"))
-        ' AddHandler link.Click, AddressOf ShowAppointmentDetail
+        link.LinkColor = Color.FromArgb(row("colnot"))
+        AddHandler link.Click, AddressOf ShowAppointmentDetail
         listFlDay((datIni.Day - 1) + (startDayAtFlNumber - 1)).Controls.Add(link)
+    End Sub
+
+    ' Displays appointment detail
+    Friend Sub ShowAppointmentDetail(sender As Object, e As EventArgs)
+        Dim objNote As New ClsNotes
+        Dim idCod = CType(sender, LinkLabel).Tag
+
+        objNote.Loc(idCod)
+
+        With CreateNote
+            .id = objNote.Cod
+            .TxtTitle.Text = objNote.Title
+            .DtpDate.Value = objNote.DateNote
+            .RtbDes.Text = objNote.Description
+            .BtnCor.IconColor = Color.FromArgb(objNote.Colour)
+            .newNote = False
+            .ShowDialog()
+        End With
+        ShowCurrentDate()
     End Sub
 End Class

@@ -1,51 +1,56 @@
-﻿Public Class ClsDataBase
-    Private relese As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Notes.mdb"
-    Public objcon As New OleDb.OleDbConnection(relese)
-    Public objclone As New DataTable
+﻿'=========================================='
+' Created by: Ivan Buragas Siqueira Ometto '
+' My Github: https://github.com/ivanOmetto '
+' =========== Date: 2022/02/02 =========== '
+'=========================================='
 
-    ' abre a conexão com o banco
-    Private Sub abrirBanco()
+Public Class ClsDataBase
+    Dim con As String = "Provider=microsoft.ace.oledb.12.0;data source=NotesDB.mdb"
+    Dim objcon As New OleDb.OleDbConnection(con)
+
+    Private Sub OpenConnection()
         objcon.Open()
     End Sub
 
-    ' fecha a conexão com o banco
-    Private Sub fecharBanco()
-        Select Case objcon.State
-            Case ConnectionState.Open
-                objcon.Close()
-        End Select
+    Private Sub CloseConnection()
+        If objcon.State = ConnectionState.Open Then
+            objcon.Close()
+        End If
     End Sub
 
-    ' executa um comando sql
-    Public Sub executarComando(sql As String)
-        abrirBanco()
-        'comando para executar o sql de todas as classes 
+    Public Sub ExecuteComand(sql As String)
+        OpenConnection()
         Dim objcmd As New OleDb.OleDbCommand(sql, objcon)
         objcmd.ExecuteNonQuery()
-        fecharBanco()
+
+        CloseConnection()
     End Sub
 
-    ' busca ultimo registro da tabela determinada 
-    Public Function buscarUltimoRegistro(sql As String) As Integer
-        Dim objda As New OleDb.OleDbDataAdapter(sql, objcon)
-        Dim objdt As New DataTable
-        objda.Fill(objdt)
-        Return objdt.Rows(0).Item(0)
-    End Function
-
-    ' localiza registro no banco atravez de sql, devolve como datatable
-    Public Function localizar(sql As String) As DataTable
-        Dim objda As New OleDb.OleDbDataAdapter(sql, objcon)
-        Dim objdt As New DataTable
-        objda.Fill(objdt)
-        Return objdt
-    End Function
-
-    ' localiza registro no banco e retorna um dataset
+    ' Returns the sql search as a Data Table
     Public Function QueryAsDataTable(sql As String) As DataTable
         Dim objda As New OleDb.OleDbDataAdapter(sql, objcon)
         Dim objdt As New DataSet
         objda.Fill(objdt, "result")
         Return objdt.Tables("result")
+    End Function
+
+    ' Searchs for sql query through id
+    Public Function SearchQuery(tabela As String, campo As Integer) As DataSet
+        Dim objds As New DataSet
+
+        Dim objda = (New OleDb.OleDbDataAdapter(tabela, objcon))
+        objda.SelectCommand.CommandType = CommandType.StoredProcedure
+        objda.SelectCommand.Parameters.Add(New OleDb.OleDbParameter("cod", OleDb.OleDbType.Integer))
+        objda.SelectCommand.Parameters("cod").Value = campo
+
+        objds.Tables.Clear()
+        objda.Fill(objds)
+
+        Select Case objds.Tables(0).Rows.Count
+            Case 0
+                Console.WriteLine("ERRO DATA SET!")
+            Case Else
+                Return objds
+        End Select
     End Function
 End Class

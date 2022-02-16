@@ -29,9 +29,9 @@ Partial Class CreateNote
         Me.BtnCor = New FontAwesome.Sharp.IconButton()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.IconButton4 = New FontAwesome.Sharp.IconButton()
-        Me.IconButton3 = New FontAwesome.Sharp.IconButton()
-        Me.IconButton2 = New FontAwesome.Sharp.IconButton()
+        Me.BtnExi = New FontAwesome.Sharp.IconButton()
+        Me.BtnDel = New FontAwesome.Sharp.IconButton()
+        Me.BtnSav = New FontAwesome.Sharp.IconButton()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -61,6 +61,7 @@ Partial Class CreateNote
         '
         Me.DtpDate.CalendarFont = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.DtpDate.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.DtpDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.DtpDate.Location = New System.Drawing.Point(12, 81)
         Me.DtpDate.Name = "DtpDate"
         Me.DtpDate.Size = New System.Drawing.Size(284, 27)
@@ -103,56 +104,56 @@ Partial Class CreateNote
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.IconButton4)
-        Me.Panel1.Controls.Add(Me.IconButton3)
-        Me.Panel1.Controls.Add(Me.IconButton2)
+        Me.Panel1.Controls.Add(Me.BtnExi)
+        Me.Panel1.Controls.Add(Me.BtnDel)
+        Me.Panel1.Controls.Add(Me.BtnSav)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel1.Location = New System.Drawing.Point(0, 311)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(308, 49)
         Me.Panel1.TabIndex = 6
         '
-        'IconButton4
+        'BtnExi
         '
-        Me.IconButton4.Dock = System.Windows.Forms.DockStyle.Right
-        Me.IconButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.IconButton4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.IconButton4.IconChar = FontAwesome.Sharp.IconChar.Ban
-        Me.IconButton4.IconColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.IconButton4.IconFont = FontAwesome.Sharp.IconFont.[Auto]
-        Me.IconButton4.Location = New System.Drawing.Point(83, 0)
-        Me.IconButton4.Name = "IconButton4"
-        Me.IconButton4.Size = New System.Drawing.Size(75, 49)
-        Me.IconButton4.TabIndex = 7
-        Me.IconButton4.UseVisualStyleBackColor = True
+        Me.BtnExi.Dock = System.Windows.Forms.DockStyle.Right
+        Me.BtnExi.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnExi.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.BtnExi.IconChar = FontAwesome.Sharp.IconChar.Ban
+        Me.BtnExi.IconColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.BtnExi.IconFont = FontAwesome.Sharp.IconFont.[Auto]
+        Me.BtnExi.Location = New System.Drawing.Point(83, 0)
+        Me.BtnExi.Name = "BtnExi"
+        Me.BtnExi.Size = New System.Drawing.Size(75, 49)
+        Me.BtnExi.TabIndex = 7
+        Me.BtnExi.UseVisualStyleBackColor = True
         '
-        'IconButton3
+        'BtnDel
         '
-        Me.IconButton3.Dock = System.Windows.Forms.DockStyle.Right
-        Me.IconButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.IconButton3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.IconButton3.IconChar = FontAwesome.Sharp.IconChar.TrashAlt
-        Me.IconButton3.IconColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.IconButton3.IconFont = FontAwesome.Sharp.IconFont.[Auto]
-        Me.IconButton3.Location = New System.Drawing.Point(158, 0)
-        Me.IconButton3.Name = "IconButton3"
-        Me.IconButton3.Size = New System.Drawing.Size(75, 49)
-        Me.IconButton3.TabIndex = 6
-        Me.IconButton3.UseVisualStyleBackColor = True
+        Me.BtnDel.Dock = System.Windows.Forms.DockStyle.Right
+        Me.BtnDel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnDel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.BtnDel.IconChar = FontAwesome.Sharp.IconChar.TrashAlt
+        Me.BtnDel.IconColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.BtnDel.IconFont = FontAwesome.Sharp.IconFont.[Auto]
+        Me.BtnDel.Location = New System.Drawing.Point(158, 0)
+        Me.BtnDel.Name = "BtnDel"
+        Me.BtnDel.Size = New System.Drawing.Size(75, 49)
+        Me.BtnDel.TabIndex = 6
+        Me.BtnDel.UseVisualStyleBackColor = True
         '
-        'IconButton2
+        'BtnSav
         '
-        Me.IconButton2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.IconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.IconButton2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.IconButton2.IconChar = FontAwesome.Sharp.IconChar.Save
-        Me.IconButton2.IconColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.IconButton2.IconFont = FontAwesome.Sharp.IconFont.[Auto]
-        Me.IconButton2.Location = New System.Drawing.Point(233, 0)
-        Me.IconButton2.Name = "IconButton2"
-        Me.IconButton2.Size = New System.Drawing.Size(75, 49)
-        Me.IconButton2.TabIndex = 5
-        Me.IconButton2.UseVisualStyleBackColor = True
+        Me.BtnSav.Dock = System.Windows.Forms.DockStyle.Right
+        Me.BtnSav.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnSav.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.BtnSav.IconChar = FontAwesome.Sharp.IconChar.Save
+        Me.BtnSav.IconColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.BtnSav.IconFont = FontAwesome.Sharp.IconFont.[Auto]
+        Me.BtnSav.Location = New System.Drawing.Point(233, 0)
+        Me.BtnSav.Name = "BtnSav"
+        Me.BtnSav.Size = New System.Drawing.Size(75, 49)
+        Me.BtnSav.TabIndex = 5
+        Me.BtnSav.UseVisualStyleBackColor = True
         '
         'CreateNote
         '
@@ -182,8 +183,8 @@ Partial Class CreateNote
     Friend WithEvents BtnCor As FontAwesome.Sharp.IconButton
     Friend WithEvents Label2 As Label
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents IconButton4 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton3 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton2 As FontAwesome.Sharp.IconButton
+    Friend WithEvents BtnExi As FontAwesome.Sharp.IconButton
+    Friend WithEvents BtnDel As FontAwesome.Sharp.IconButton
+    Friend WithEvents BtnSav As FontAwesome.Sharp.IconButton
     Friend WithEvents ColorDialog1 As ColorDialog
 End Class
